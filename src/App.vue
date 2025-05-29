@@ -262,7 +262,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useTodosStore } from './stores/todos'
 import { useBudgetStore } from './stores/budget'
 import Header from './components/Header.vue'
@@ -345,6 +345,21 @@ const formatDate = (date: Date) => {
     minute: '2-digit',
   }).format(date)
 }
+
+const appTitle = "Productivity Suite by Vinn"
+
+watch(activeTab, (tab) => {
+  document.title = {
+    notes: `Notes - ${appTitle}`,
+    todos: `Todos - ${appTitle}`,
+    budget: `Budget - ${appTitle}`,
+  }[tab] || appTitle
+  document.documentElement.setAttribute('data-active-tab', tab)
+})
+defineExpose({
+  appTitle,
+})
+
 </script>
 
 <style>
